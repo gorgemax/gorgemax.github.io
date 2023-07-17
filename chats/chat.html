@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="CHATSTYLE.css">
+    <title>MigiLex</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+      </style>
+      </head>
+      <body>
+          <div class="card">
+              <div class="chat-header">Chat Box</div>
+              <div class="chat-window" id="chat-window">
+                  <ul class="message-list" id="message-list"></ul>
+              </div>
+              <div class="chat-input">
+                  <input
+                      type="text"
+                      placeholder="Type your message here..."
+                      class="message-input"
+                      id="message-input"
+                  />
+                  <button class="send-button" id="send-button">Send</button>
+              </div>
+          </div>
+          <script>
+            const messageList = document.getElementById("message-list");
+            const messageInput = document.getElementById("message-input");
+            const sendButton = document.getElementById("send-button");
+            const chatWindow = document.getElementById("chat");
+        </script>
+        </body>
+        </html> 

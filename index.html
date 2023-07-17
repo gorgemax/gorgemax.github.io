@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>MigiLex</title>
+  <link rel="icon" type="image/png" href="wel.png">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // JavaScript code for geolocation
+    function getGeolocation() {
+      if ("geolocation" in navigator) {
+        // Geolocation is supported
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            // Get latitude and longitude
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+
+            // Process or display the location data
+            console.log("Latitude: " + latitude + ", Longitude: " + longitude);
+          },
+          function(error) {
+            // Handle geolocation errors
+            switch (error.code) {
+              case error.PERMISSION_DENIED:
+                console.log("User denied the request for Geolocation.");
+                break;
+              case error.POSITION_UNAVAILABLE:
+                console.log("Location information is unavailable.");
+                break;
+              case error.TIMEOUT:
+                console.log("The request to get user location timed out.");
+                break;
+              case error.UNKNOWN_ERROR:
+                console.log("An unknown error occurred.");
+                break;
+            }
+          }
+        );
+      } else {
+        // Geolocation is not supported
+        console.log("Geolocation is not supported by this browser.");
+      }
+    }
+
+    // Check if the user is on a mobile device
+    var IS_MOBILE = /mobile|kindle|silk\/|symbian|nokia|android|nintendobrowser/i.test(navigator.userAgent);
+
+    // Function to add CSS based on device type
+    function addDeviceCSS() {
+      var linkElement = document.createElement('link');
+      linkElement.rel = 'stylesheet';
+      linkElement.type = 'text/css';
+      linkElement.href = IS_MOBILE ? 'pngs/newchatbtn.png' : 'pngs/textbtn.png';
+      document.head.appendChild(linkElement);
+    }
+    
+    // Function to handle chat button click
+    function handleChatButtonClick() {
+      window.location.href = "chats/chat.html";
+    }
+
+    // Function to initialize Google Translate
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        { pageLanguage: 'en' },
+        'google_translate_element'
+      );
+    }
+
+    // Function to handle the feedback form submission
+    function handleFeedbackFormSubmit() {
+      var form = document.getElementById('feedback-form');
+      var formData = new FormData(form);
+
+      fetch('feedback.php', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            // Show thank you popup for successful email sending
+            alert('Thank you for your feedback!');
+          } else {
+            // Show error popup for failed email sending
+            alert('An error occurred. Please try again later.');
+          }
+        })
+        .catch(error => {
+          // Show error popup for unexpected errors
+          alert('An unexpected error occurred. Please try again later.');
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      getGeolocation();
+      addDeviceCSS();
+
+      document.getElementById("chatbtn").addEventListener("click", handleChatButtonClick);
+      document.getElementById("feedback-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        handleFeedbackFormSubmit();
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="main">
+    <div class="up">
+      <!-- Social media buttons -->
+      <button class="card1">
+        <a href="https://www.instagram.com/xd_beatsyt/">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0,0,256,256" width="30px" height="30px" fill-rule="nonzero" class="instagram">
+            <!-- SVG path for Instagram icon -->
+          </svg>
+        </a>
+      </button>
+      <button class="card2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="30px" height="30px" class="twitter">
+          <!-- SVG path for Twitter icon -->
+        </svg>
+      </button>
+    </div>
+    <div class="down">
+      <button class="card3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30px" height="30px" class="github">
+          <!-- SVG path for GitHub icon -->
+        </svg>
+      </button>
+      <button class="card4">
+        <svg height="30px" width="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" class="discord">
+          <!-- SVG path for Discord icon -->
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="intro">
+    <header>
+      <img src="pngs/migi.png" alt="MigiLex Logo" class="logo" id="logo">
+    </header>
+    <main>
+      <div class="box">
+        <section id="start-chat">
+          <h2>Connect with Others</h2>
+          <p>Choose between Video Call and Chat</p>
+          <div>
+            <button class="button1" onclick="handleChatButtonClick()">Video Call</button>
+            <button class="button2" id="chatbtn">Chat</button>
+          </div>
+          <div id="chat-section" style="display:none;">
+            <div id="chat-window"></div>
+            <form id="message-form">
+              <input type="text" id="message-input" placeholder="Type your message here">
+              <input type="submit" value="Send">
+            </form>
+          </div>
+        </section>
+        <section id="about">
+          <div class="about-box">
+            <h2>About</h2>
+            <p>
+              MigiLex is a website that allows strangers to chat with each other anonymously. We believe that everyone should have the opportunity to connect with others, regardless of their background or identity.
+            </p>
+            <p>MigiLex is a great way to meet new friends. Discover new connections and perspectives with MigiLex! This innovative platform randomly pairs you with someone for a one-on-one conversation. Customize your experience by adding your interests and getting matched with like-minded individuals. Your chats are kept anonymous, allowing you to enjoy a safe and secure conversation.</p>
+            <p>MigiLex connects you with people from around the world through anonymous one-on-one chats. To ensure your safety, chats remain anonymous unless you choose to reveal your identity. You have the option to end a chat at any time. It is important to review our <a href="/public/terms.html" target="_blank">Terms of Service</a> and <a href="" target="_blank">Community Guidelines</a> for the do's and don'ts of using MigiLex. While our moderation system helps maintain a positive environment, users are solely responsible for their behavior on the platform.</p>
+            <p><strong>YOU MUST BE 18 OR OLDER TO USE MigiLex.</strong> </p>
+            <p>See MigiLex’s <a href="" target="_blank">Terms of Service</a> for more info.</p>
+          </div>
+        </section>
+        <section id="contact">
+          <h3>Contact Us</h3>
+          <form action="feedback.php" method="post" id="feedback-form" class="form">
+            <label for="email">Email:</label>
+            <input type="email" placeholder="name@yourmail.com" id="email" name="email" style="height: 30px; margin-bottom: 10px; padding-right: 20px;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required><br>
+            <label for="feedback" class="feed">Feedback:</label>
+            <textarea id="feedback" name="feedback" placeholder="We are in love with MigiLex" required></textarea>
+            <button type="submit" class="submit">Send</button>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+  <footer>
+    <div id="chatbtnwrapper">
+      <img src="" width="200" height="50" alt="Start a chat" id="chatbtn">
+    </div>
+    <p>Copyright © 2023 MigiLex</p>
+  </footer>
+</body>
+</html>
